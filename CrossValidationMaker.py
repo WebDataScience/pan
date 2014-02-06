@@ -4,7 +4,26 @@ from sklearn.cross_validation import KFold
 from CSVMaker import csvLineMaker
 import os, csv
 
-#Splits an input .csv by 10 folds by line into .csv's 
+#Separates data into test/train and validation portions
+def validationSeparate(src_csv, dst_path, proportion_validation)l
+	with open(src_csv, 'rb') as csvfile:
+		count = 0
+		reader = csv.reader(csvfile, delimiter=',')
+		for row in reader:
+			lines.append(row)
+			count = count + 1
+		test-train = count * (1-proportion_validation)
+		testtraincsv = ""
+		validationcsv = ""
+		for testtrain_index in range(0,test-train)
+			testtraincsv = testtraincsv + csvLineMaker(lines[testtrain_index]) + "\n"
+		for validation_index in range(test-train,count)
+			validationcsv = validationcsv + csvLineMaker(lines[validation_csv]) + "\n"
+
+		saveFile(dst_path + "testtrain.csv", testtraincsv)
+		saveFile(dst_path + "validation.csv", validationcsv)	
+
+#Splits an input .csv by 10 folds by line into .csv 
 def tenFoldSplitCSV(src_csv, dst_path):
 	with open(src_csv, 'rb') as csvfile:
 		if not os.path.exists(dst_path):
