@@ -5,7 +5,7 @@ from CSVMaker import csvLineMaker
 import os, csv
 
 #Separates data into test/train and validation portions
-def validationSeparate(src_csv, dst_path, proportion_validation)l
+def validationSeparate(src_csv, dst_path, proportion_validation)
 	with open(src_csv, 'rb') as csvfile:
 		count = 0
 		reader = csv.reader(csvfile, delimiter=',')
