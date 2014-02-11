@@ -7,9 +7,9 @@ import csv
 #Call the mallet script
 subprocess.call("./callmallet.sh")
 
-txt_file = r"./outputs/composition.txt"
-csv_file = r"./outputs/composition.csv"
-other_csv = r"./outputs/test_composition.csv"
+txt_file = r"/Users/the_james_marq/PAN/outputs/composition.txt"
+csv_file = r"/Users/the_james_marq/PAN/outputs/composition.csv"
+other_csv = r"/Users/the_james_marq/PAN/outputs/test_composition.csv"
 
 #Convert .txt to appropriate .csv
 in_txt = csv.reader(open(txt_file, "rb"), delimiter = '\t')
@@ -28,21 +28,15 @@ for row in in_txt:
 	other_out.csv.writerow(arr)
 '''
 next(in_txt, None)
-header = ["ID", "Label"]
-
-for i in range(1,20+1):
-	header.append("Topic " + str(i))
-
-other_out.writerow(header)
 
 for row in in_txt:
-	arr = [0] * 22
+	arr = [0] * 52
 	column_src = 0
 	column_dst = 0
 
 	file_info = row[1].split("_")
-	arr[0] = file_info[3].split("/")[1]
-	arr[1] = file_info[5] + " " + file_info[6].split(".")[0]
+	arr[0] = file_info[2].split("/")[5]
+	arr[1] = file_info[4] + " " + file_info[5].split(".")[0]
 
 	for word in row[1:]:
 		column_src = column_src + 1
@@ -54,5 +48,5 @@ for row in in_txt:
 	#arr.append("\n")
 	other_out.writerow(arr)
 
-os.remove("./outputs/composition.txt")
+os.remove("/Users/the_james_marq/PAN/outputs/composition.txt")
 

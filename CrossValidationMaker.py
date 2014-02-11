@@ -1,11 +1,41 @@
 from Util import getFilesFromFolder, saveFile
 from shutil import copy
-from sklearn.cross_validation import KFold
+from sklearn.cross_validation import KFold, StratifiedKFold
 from CSVMaker import csvLineMaker
+from numpy import genfromtxt
 import os, csv
 
+#Creates stratified folds according to the proportion of labels
+def stratCrossVal(src, dst, fold_num):
+	folds = []
+	data = []
+	labels = []
+
+	if not os.path.exists(dst):
+		os.makedirs(dst)
+
+	with open(src, 'rb') as csvfile:
+		reader = csv.reader(csvfile, delimiter = ',')
+		for row in reader:
+			data.append(row)
+			labels.append(row[1])
+
+		skf = StratifiedKFold(labels, fold_num)
+	
+	index = 1
+	for train, test in skf:
+		out_csv = csv.writer(open(dst + "fold" + str(index) + ".csv", 'wb'))
+		for num in train:
+			out_csv.writerow(data[num])
+		for num in test:
+			out_csv.writerow(data[num])
+		index = index + 1
+
+
+
 #Separates data into test/train and validation portions
-def validationSeparate(src_csv, dst_path, proportion_validation)
+'''
+def validationSeparate(src_csv, dst_path, proportion_validation):
 	with open(src_csv, 'rb') as csvfile:
 		count = 0
 		reader = csv.reader(csvfile, delimiter=',')
@@ -22,6 +52,7 @@ def validationSeparate(src_csv, dst_path, proportion_validation)
 
 		saveFile(dst_path + "testtrain.csv", testtraincsv)
 		saveFile(dst_path + "validation.csv", validationcsv)	
+'''
 
 #Splits an input .csv by 10 folds by line into .csv 
 def tenFoldSplitCSV(src_csv, dst_path):
@@ -70,3 +101,5 @@ def tenFoldSplitDir(src_path, dst_path):
 			copy(src_path + files[test_index], test_dest)
 
 		dir_iter+=1
+
+stratCrossVal("/Users/the_james_marq/PAN/outputs/9Feb14-100topics-236602docs/test_composition.csv", "/Users/the_james_marq/PAN/outputs/9Feb14-100topics-236602docs/folds/", 10)
