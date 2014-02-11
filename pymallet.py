@@ -1,15 +1,12 @@
 import subprocess, os
 import csv
 
-import subprocess, os
-import csv
-
 #Call the mallet script
 subprocess.call("./callmallet.sh")
 
-txt_file = r"/Users/the_james_marq/PAN/outputs/composition.txt"
-csv_file = r"/Users/the_james_marq/PAN/outputs/composition.csv"
-other_csv = r"/Users/the_james_marq/PAN/outputs/test_composition.csv"
+txt_file = r"../outputs/composition.txt"
+csv_file = r"../outputs/composition.csv"
+other_csv = r"../outputs/test_composition.csv"
 
 #Convert .txt to appropriate .csv
 in_txt = csv.reader(open(txt_file, "rb"), delimiter = '\t')
@@ -48,5 +45,5 @@ for row in in_txt:
 	#arr.append("\n")
 	other_out.writerow(arr)
 
-os.remove("/Users/the_james_marq/PAN/outputs/composition.txt")
+os.remove("../outputs/composition.txt")
 
