@@ -1,6 +1,14 @@
 import os, csv
 import numpy as np
 
+def initDict(src):
+	ret_dict = dict()
+	onlyfiles = [ f for f in os.listdir(src) if os.path.isfile(os.path.join(src,f)) ]
+	for entry in onlyfiles:
+		file_info = entry.split("_")
+		ret_dict[file_info[0]] = (file_info[2]+"_"+file_info[3].split(".")[0],[])
+	return ret_dict
+
 #Convert output of file inference to usable form
 def fixMalletOutputInf(topicOutputPath, newPath, topic_num):
 	print topicOutputPath
@@ -59,3 +67,5 @@ def fixMalletOutput(topicOutputPath, newPath, topic_num):
 			column_src+=1	
 		
 		output.writerow(arr)
+
+initDict("/home/jamarq/PAN/Data/cleaned")

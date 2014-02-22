@@ -34,10 +34,14 @@ def outputDivergences(concat_path, total_path, out_path):
 	concat_dist = getDistributions(concat_path, True)
 	total_dist = getDistributions(total_path)
 
+	ret_dict = dict()
+
 	for entry in total_dist:
 		#print avKLDiv(concat_dist[0],entry[1])
-		out_txt.writerow([entry[0], calcKLDiv(concat_dist[0],entry[1])])
+		#out_txt.writerow([entry[0], calcKLDiv(concat_dist[0],entry[1])])
+		ret_dict[entry[0]] = calcKLDiv(concat_dist[0],entry[1])
 
+	return ret_dict
 
 
 '''
