@@ -19,7 +19,6 @@ def countTags(src):
 
 		ret_arr[entry.split("_")[0]]=doc_arr
 
-	print ret_arr
 	return ret_arr	
 
 #countTags("/home/jamarq/PAN/Data/PAN14/PAN14/pan14-author-profiling-training-corpus-blogs-2014-02-10/en")
