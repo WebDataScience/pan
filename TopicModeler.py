@@ -7,7 +7,7 @@ def modelTopics(src, topic_num):
 		os.makedirs("./malletstuff")
 
 	args=['./traintopics.sh', src, str(topic_num)]
-	#subprocess.call(args)
+	subprocess.call(args)
 	fixMalletOutput("./malletstuff/alldocs.txt", "./malletstuff/alldocs.csv", topic_num)
 
 def inferTopics(label, topic_num):

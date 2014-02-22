@@ -32,8 +32,8 @@ def fixMalletOutputInf(topicOutputPath, newPath, topic_num):
 				if topic_count >= topic_num:
 					break
 			output.writerow(arr)
-	if topicOutputPath != newPath:
-		os.remove(topicOutputPath)
+	#if topicOutputPath != newPath:
+	#	os.remove(topicOutputPath)
 
 #Tranforms Mallet topic distribution output to normal row/column form
 def fixMalletOutput(topicOutputPath, newPath, topic_num):

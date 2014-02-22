@@ -1,7 +1,9 @@
 from HTMLParser import HTMLParser
 from os import listdir
 from os.path import isfile, join
-import os, re
+from bs4 import BeautifulSoup
+import os, re, shutil
+import unicodedata
 
 class MLStripper(HTMLParser):
     def __init__(self):
@@ -24,12 +26,12 @@ def clean(src, dst):
 
     if not os.path.exists(dst):
         os.makedirs(dst)
+    else:
+        shutil.rmtree(dst)
+        os.makedirs(dst)
 
     onlyfiles = [ f for f in listdir(src) if isfile(join(src,f)) ]
 
     for entry in onlyfiles:
-        with open (src + "/" + entry, "r") as myfile:
-            data=myfile.read().replace('\n', '').replace('\t', '')
-            data=re.sub("a href=(.)*;", '', data)
-
-            file(dst + "/" + entry,"wb").write(strip_tags(data).replace('\n', '').replace('\r', '').replace('/', '').replace(';br', '').replace(';li', ''))
+        soup = BeautifulSoup(open(src+"/"+entry))
+        file(dst + "/" + entry,"wb").write(unicodedata.normalize('NFKD', re.sub(' +',' ', strip_tags(soup.prettify()).replace("\n", "").replace("\t", ""))).encode('ascii','ignore'))
