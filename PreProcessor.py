@@ -32,6 +32,9 @@ def clean(src, dst):
 
     onlyfiles = [ f for f in listdir(src) if isfile(join(src,f)) ]
 
+    print "Cleaning Files"
+
     for entry in onlyfiles:
         soup = BeautifulSoup(open(src+"/"+entry))
+        
         file(dst + "/" + entry,"wb").write(unicodedata.normalize('NFKD', re.sub(' +',' ', strip_tags(soup.prettify()).replace("\n", "").replace("\t", ""))).encode('ascii','ignore'))

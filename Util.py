@@ -68,4 +68,4 @@ def fixMalletOutput(topicOutputPath, newPath, topic_num):
 		
 		output.writerow(arr)
 
-initDict("/home/jamarq/PAN/Data/cleaned")
+#initDict("/home/jamarq/PAN/Data/cleaned")

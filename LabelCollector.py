@@ -1,9 +1,16 @@
 from os import listdir
 from os.path import isfile, join
-from shutil import copy
+from shutil import copy, rmtree
 import os, re
 
 def groupLabels(src, dst, labels):
+
+	print "Grouping documents"
+
+	if os.path.exists(dst):
+		rmtree(dst)
+	else:
+		os.makedirs(dst)
 
 	for label in labels:
 		makeFolders(dst + "/" + label)

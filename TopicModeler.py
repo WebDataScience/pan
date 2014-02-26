@@ -15,7 +15,7 @@ def inferTopics(label, topic_num):
 	args=['./infertopics.sh', "../Data/grouped/" + label + "/result.txt", "./malletstuff/" + label + "topics.csv"]
 	subprocess.call(args)
 	#fixMalletOutput("./malletstuff/" + label + "topics.csv", "./malletstuff/" + label + "topics.csv", topic_num)
-	fixMalletOutputInf("./malletstuff/"+label+"topics.csv", "./malletstuff/"+label+"topics_total.csv", 10)
+	fixMalletOutputInf("./malletstuff/"+label+"topics.csv", "./malletstuff/"+label+"topics_total.csv", topic_num)
 
 #modelTopics("/home/jamarq/PAN/Data/grouped/10s_male",10)
 #modelTopics("/home/jamarq/PAN/Data/cleaned", 10)
