@@ -45,7 +45,6 @@ def fixMalletOutputInf(topicOutputPath, newPath, topic_num):
 
 #Tranforms Mallet topic distribution output to normal row/column form
 def fixMalletOutput(topicOutputPath, newPath, topic_num):
-
 	in_txt = csv.reader(open(topicOutputPath, "rb"), delimiter = '\t')
 	output = csv.writer(open(newPath, 'wb'))
 
@@ -68,4 +67,34 @@ def fixMalletOutput(topicOutputPath, newPath, topic_num):
 		
 		output.writerow(arr)
 
+#Save textual content to a file
+#Input: file path and textual content
+def saveFile (path, content):
+    file(path,"wb").writelines(content)
+
+#Extract files from the folder
+def getFilesFromFolder(folderPath):
+    files = [f for f in os.listdir(folderPath) if f.endswith('.xml')]
+    return files
+#Read content of the file    
+def readFile(filePath):
+    text = open(filePath, 'r').read()
+    return text
+
+def saveFolder(folderPath):  
+    if not os.path.exists(folderPath):
+        os.makedirs(folderPath) 
+
+def readLines(fileName):        
+    items = []
+    if os.path.exists(fileName):
+        f = open(fileName)
+        lines = f.readlines()
+        f.close()
+        for line in lines:
+            item = line.replace('\n', '')
+            items.append(item)
+        return items
+    else:
+        return None
 #initDict("/home/jamarq/PAN/Data/cleaned")

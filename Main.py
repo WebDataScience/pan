@@ -33,3 +33,4 @@ for path in paths:
 	print src_type
 	print path
 	DivCSVMaker.makeDivCSV(path, final_out)
+
