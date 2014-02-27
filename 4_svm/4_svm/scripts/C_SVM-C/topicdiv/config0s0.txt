@@ -1,0 +1,14 @@
+algorithm = C_SVM
+inputData = "../datasets/topicdiv/topicdiv-10-1tra.dat" "../datasets/topicdiv/topicdiv-10-1tra.dat" "../datasets/topicdiv/topicdiv-10-1tst.dat" 
+outputData = "../results/C_SVM-C.topicdiv/result0s0.tra" "../results/C_SVM-C.topicdiv/result0s0.tst" 
+
+seed = 1286082570
+KERNELtype = POLY
+C = 100.0
+eps = 0.001
+degree = 1
+gamma = 0.01
+coef0 = 0.0
+nu = 0.1
+p = 1.0
+shrinking = 1

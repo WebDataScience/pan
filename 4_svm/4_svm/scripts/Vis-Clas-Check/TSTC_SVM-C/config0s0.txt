@@ -1,0 +1,8 @@
+algorithm = Summary of the algorithm, Classification probs.
+inputData = "../results/C_SVM-C.topicdiv/result0s0.tst" "../results/C_SVM-C.topicdiv/result0s0.tra" 
+outputData = "../results/Vis-Clas-Check/TSTC_SVM-C/result0s0.stat" 
+
+seed = 1343278692
+subAlgorithm = StatCheckCL
+dataformat = keel
+outlabel = CHK
