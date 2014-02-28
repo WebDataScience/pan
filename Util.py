@@ -108,8 +108,20 @@ def extractFileName(filePath):
 			temp = slash+1
 	fileName = filePath[temp:]
 	return fileName
+
+
+def extractFolderName(filePath):
+	index = '/'
+	temp =0
+	slash = 0
+	while slash<>-1:
+		slash = filePath.find(index, temp)
+		if slash<>-1:
+			temp = slash+1
+	fileName = filePath[:temp]
+	return fileName
 #initDict("/home/jamarq/PAN/Data/cleaned")
 
-extractFileName('/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/en/4c9fe29d6bea6d70c02b7eca7e2fac7b_en_50-64_male.xml')
+print extractFolderName('/Users/Golnoosh/Documents/4c9fe29d6bea6d70c02b7eca7e2fac7b_en_50-64_male.xml')
 
 
