@@ -11,9 +11,10 @@ def cosineCSVMaker(users, lables, textFeatureDictionary, outputPath):
         #if we want the userID to be in the output file
         scores.append(user)
         for label in labels:
-            scores.append(cosineMeasure(textFeatureDictionary(user), textFeatureDictionary(label)))
+            scores.append(cosineMeasure([textFeatureDictionary[user]], [textFeatureDictionary[label]]))
         row = csvLineMaker(scores)
         csvContent = csvContent+row+'\n'
     saveFile(csvContent,outputPath+'/textualFeatures.csv')
          
+    
     

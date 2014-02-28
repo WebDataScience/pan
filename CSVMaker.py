@@ -6,7 +6,7 @@ def getCsvSeparator():
 
 #Make one element in double quotation
 def makeCsvElement(element):
-    return '"'+element+'"'
+    return element
 
 #Get a feature set and make a CSV line
 def csvLineMaker(features):
