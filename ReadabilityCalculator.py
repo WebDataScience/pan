@@ -10,7 +10,7 @@ def textAnalyzer(text, tokens):
     analyzedVars['wordCount'] = float(len(tokens))
     sentenceCount=SentenceCount(text)
     analyzedVars['sentenceCount'] = float(SentenceCount(text))
-    analyzedVars['syllableCount'] = float(SyllableCalculator(text))
+    #analyzedVars['syllableCount'] = float(SyllableCalculator(text))
     #analyzedVars['complexwordCount'] = float(complexwordsCount)
     averageWordsPerSentence = float(float(wordCount)/float(sentenceCount))
     analyzedVars['averageWordsPerSentence'] = float(averageWordsPerSentence)
@@ -78,14 +78,14 @@ def extractReadabilityArray(text, tokens):
     analyzedVars = textAnalyzer(text, tokens)
     readArray.append(analyzedVars['charCount'])
     readArray.append(analyzedVars['sentenceCount'])
-    readArray.append(analyzedVars['syllableCount'])    
+    #readArray.append(analyzedVars['syllableCount'])    
     readArray.append(analyzedVars['averageWordsPerSentence'])                                 
     readArray.append(float(ARI(text,analyzedVars)))
     readArray.append(float(RIX(text,analyzedVars)))
     readArray.append(float(ColemanLiauIndex(text,analyzedVars)))
     #readArray.append(SMOGIndex(text,analyzedVars))
-    readArray.append(float(FleschKincaidGradeLevel(text,analyzedVars)))
-    readArray.append(float(FleschReadingEase(text,analyzedVars)))
+    #readArray.append(float(FleschKincaidGradeLevel(text,analyzedVars)))
+    #readArray.append(float(FleschReadingEase(text,analyzedVars)))
     #readArray.append(GunningFogIndex(text,analyzedVars))
-    print readArray
+    #print readArray
     return readArray
