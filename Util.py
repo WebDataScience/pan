@@ -122,6 +122,41 @@ def extractFolderName(filePath):
 	return fileName
 #initDict("/home/jamarq/PAN/Data/cleaned")
 
+def clean(text):
+    start_index = '<'
+    finish_index = '>'
+    text = text.replace('&lt;','<')
+    text = text.replace('&gt;','>')
+    starter = text.find(start_index)
+    while starter<>-1:
+        data_index = text.find('![CDATA[')
+        if data_index<>-1:
+            text = text.replace('<![CDATA[', '')
+            text = text.replace(']]>', '')
+            starter = text.find(start_index)
+        else:
+            finisher = text.find(finish_index,starter+1)
+            if  finisher<>-1:
+                rm_text = text[starter:finisher+1]
+                text = text.replace(rm_text,' ')
+                starter = text.find(start_index)
+            else:
+                starter =-1
+    text = text.replace(']]>','')
+    text = text.replace('\n',' ')
+    text = text.strip() 
+    text = cleanHtmlTags(text)  
+    return text
+        
+def cleanHtmlTags(text):
+    start = text.find('&')
+    if start <>-1:
+        finish = text.find(';', start+1)
+        if finish<>-1:
+            rm = text[start:finish+1]
+            text = text.replace(rm,' ')
+    return text
+   
 print extractFolderName('/Users/Golnoosh/Documents/4c9fe29d6bea6d70c02b7eca7e2fac7b_en_50-64_male.xml')
 
 
