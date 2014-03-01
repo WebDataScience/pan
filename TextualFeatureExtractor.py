@@ -5,7 +5,7 @@ from nltk.tag.stanford import POSTagger
 from nltk.corpus import cmudict
 from os import listdir
 from os.path import isfile, join
-#from bs4 import BeautifulSoup
+from collections import Counter
 from Util import extractFileName, readFile, extractFolderName
 from ReadabilityCalculator import extractReadabilityArray
 import subprocess
@@ -27,7 +27,8 @@ def extractTextualFeatures(textFilePath, xmlFilePath, userID, lang):
     features.append(documentCounter)
     tokens = extractTokens(text)
     length = len(tokens)
-    #print 'length'
+    print 'length'
+    print length
     #print float(timeit.default_timer()-start)
     features.append(length)
     tokens = removeStopWords(text, lang)
@@ -78,7 +79,10 @@ def extractFormality(tokens, lang):
         else:
             #TODO: look for Spanish dictionary
             number = 0
-    return float(float(number)/float(len(tokens)))
+    if len(tokens)>0:
+        return float(float(number)/float(len(tokens)))
+    else:
+        return 0
 
 #Extract tokens using nltk tool
 def extractTokens(text):
@@ -89,8 +93,11 @@ def extractTokens(text):
 def extractRepeatation(tokens, text):
     number = 0
     for word in tokens:
-        number = getAllTheMatch(word, text)
-    frequencyOfRepeatation = float(float(number)/float(len(tokens)))
+        number = text.count(word)
+    if len(tokens)>0:
+        frequencyOfRepeatation = float(float(number)/float(len(tokens)))
+    else:
+        frequencyOfRepeatation=0
     return frequencyOfRepeatation
 
 #Return the text which after finding one match, if it in none and zero, there is no match, otherwise there is a match and remaining text is returned
@@ -127,7 +134,10 @@ def ExtractCapital(tokens):
         capitalLetter = capitalLetter+length
         if size == length:
             capitalWord = capitalWord+1
-    return float(float(capitalWord)/float(len(tokens))), float(float(capitalLetter)/float(wholeSize))
+    if len(tokens)>0:
+        return float(float(capitalWord)/float(len(tokens))), float(float(capitalLetter)/float(wholeSize))
+    else:
+        return 0,0
 
 #Remove stop words from the text
 # This function is language dependent, therefore it is needed to detect the language first and then run this function on that particular langiage
@@ -143,7 +153,10 @@ def removeStopWords(text, lang):
 # Extract number of simple emoticons per document 
 def extractEmoticons(text, tokens):
     matches = re.findall(r'(?::|;|=)(?:-)?(?:\)|\(|D|P)', text)
-    return float(float(len(matches))/float(len(tokens)))
+    if len(tokens)>0:
+        return float(float(len(matches))/float(len(tokens)))
+    else:
+        return 0
             
             
 def extractErrors(text, lang):
@@ -171,11 +184,18 @@ def extractPOSFeatures(text, tokens, lang):
 
 def extractHTMLTags(text, tokens):
     docArray = []
-    docArray.append(float(float(len(re.findall(r'<a',text)))/float(len(tokens))))
-    docArray.append(float(float(len(re.findall(r'<img',text)))/float(len(tokens))))
-    docArray.append(float(float(len(re.findall(r'<b',text)))/float(len(tokens))))
-    docArray.append(float(float(len(re.findall(r'<i',text)))/float(len(tokens))))
-    docArray.append(float(float(len(re.findall(r'<ui',text)) + len(re.findall(r'<ol',text)))/float(len(tokens))))
+    if len(tokens)>0:
+        docArray.append(float(float(len(re.findall(r'<a',text)))/float(len(tokens))))
+        docArray.append(float(float(len(re.findall(r'<img',text)))/float(len(tokens))))
+        docArray.append(float(float(len(re.findall(r'<b',text)))/float(len(tokens))))
+        docArray.append(float(float(len(re.findall(r'<i',text)))/float(len(tokens))))
+        docArray.append(float(float(len(re.findall(r'<ui',text)) + len(re.findall(r'<ol',text)))/float(len(tokens))))
+    else:
+        docArray.append(0)
+        docArray.append(0)
+        docArray.append(0)
+        docArray.append(0)
+        docArray.append(0)
     return docArray   
 
 # extract different features related to readability of the text based on the different formulas

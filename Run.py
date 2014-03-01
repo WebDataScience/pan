@@ -5,6 +5,7 @@ from CosineCSVMaker import cosineCSVMaker
 from shutil import rmtree
 
 
+
 def run(input_training, input_testing, type, lang, output_results):
     print "Starting.."
     if os.path.exists(getHomeDirectory()+type+'_'+lang+'/'):
@@ -112,8 +113,8 @@ def cleanText(folder, textualOutput, groupedPath):
      return users, labels
          
 
-input_training='/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/test/'
-input_testing= '/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/test/'
+input_training='/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/en/'
+input_testing= '/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/en/'
 type ='blog'
 lang = 'en'
 output_results=''

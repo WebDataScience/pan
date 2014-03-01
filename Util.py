@@ -151,13 +151,16 @@ def clean(text):
     text = text.replace(']]>','')
     text = text.replace('\n',' ')
     text = text.strip() 
-    #text = cleanHtmlTags(text) 
+    
     text=cleanSpams(text) 
+    text = cleanHtmlTags(text) 
     return text
         
 def cleanHtmlTags(text):
+    print 'html'
     start = text.find('&')
-    while  start <>-1:
+    finish = start+20
+    while  start <>-1 and (finish-start)<10:
         finish = text.find(';', start+1)
         if finish<>-1:
             rm = text[start:finish+1]
@@ -166,8 +169,9 @@ def cleanHtmlTags(text):
     return text
    
 def cleanSpams(text):
-	start = text.find('%')
-	while start <>-1:
+    print 'spam'
+    start = text.find('%')
+    while start <>-1:
 		finish= text.find('%', start+1)
 		index = start
 		while finish<>-1 and float(finish-index) <5.0:
@@ -176,7 +180,7 @@ def cleanSpams(text):
 		rm = text[start:index+1]
 		text = text.replace(rm,' ')
 		start = text.find('%')
-	return text
+    return text
    
 def saveDictionary(myDic, filePath):
 	writer = csv.writer(open(filePath, 'wb'))
@@ -189,6 +193,6 @@ def saveDictionaryValues(myDic, filePath):
         writer.writerow(value)
         
                
-print extractFolderName('/Users/Golnoosh/Documents/4c9fe29d6bea6d70c02b7eca7e2fac7b_en_50-64_male.xml')
-
-
+#print extractFolderName('/Users/Golnoosh/Documents/4c9fe29d6bea6d70c02b7eca7e2fac7b_en_50-64_male.xml')
+#print cleanHtmlTags('&dsf; dsgfsd sdf sf asd asd asd $sd; &dfdsfdf;')
+#print cleanSpams('sdfdf %f%dfg%df% djfj sfjkh asjh %20%fg%df%d%')
