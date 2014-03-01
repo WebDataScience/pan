@@ -49,7 +49,7 @@ def GunningFogIndex(text,analyzedVars):
     return round(score, 4)
 
 def ARI(text,analyzedVars):
-    if analyzedVars['wordCount']>0:
+    if analyzedVars['wordCount']>0 and analyzedVars['sentenceCount']>0:
         score = 4.71 * (analyzedVars['charCount'] / analyzedVars['wordCount']) + 0.5 * (analyzedVars['wordCount'] / analyzedVars['sentenceCount']) - 21.43
     else:
         score = 0
