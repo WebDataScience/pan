@@ -42,29 +42,47 @@ def CharCount(tokens):
     return float(count)
             
 def GunningFogIndex(text,analyzedVars):
-    score = 0.4 * ((analyzedVars['averageWordsPerSentence']) + (100 * (analyzedVars['complexwordCount']/analyzedVars['wordCount'])))
+    if analyzedVars['wordCount']>0:
+        score = 0.4 * ((analyzedVars['averageWordsPerSentence']) + (100 * (analyzedVars['complexwordCount']/analyzedVars['wordCount'])))
+    else:
+        score = 0
     return round(score, 4)
 
 def ARI(text,analyzedVars):
-    score = 4.71 * (analyzedVars['charCount'] / analyzedVars['wordCount']) + 0.5 * (analyzedVars['wordCount'] / analyzedVars['sentenceCount']) - 21.43
+    if analyzedVars['wordCount']>0:
+        score = 4.71 * (analyzedVars['charCount'] / analyzedVars['wordCount']) + 0.5 * (analyzedVars['wordCount'] / analyzedVars['sentenceCount']) - 21.43
+    else:
+        score = 0
     return score
 
 def FleschReadingEase(text,analyzedVars):
     score = 0.0
-    score = 206.835 - (1.015 * (analyzedVars['averageWordsPerSentence'])) - (84.6 * (analyzedVars['syllableCount']/ analyzedVars['wordCount']))
+    if analyzedVars['wordCount']>0:
+        score = 206.835 - (1.015 * (analyzedVars['averageWordsPerSentence'])) - (84.6 * (analyzedVars['syllableCount']/ analyzedVars['wordCount']))
+    else:
+        score = 0
     return round(score, 4)
 
 
 def FleschKincaidGradeLevel(text,analyzedVars):
-    score = 0.39 * (analyzedVars['averageWordsPerSentence']) + 11.8 * (analyzedVars['syllableCount']/ analyzedVars['wordCount']) - 15.59
+    if analyzedVars['wordCount']>0:
+        score = 0.39 * (analyzedVars['averageWordsPerSentence']) + 11.8 * (analyzedVars['syllableCount']/ analyzedVars['wordCount']) - 15.59
+    else:
+        score = 0
     return round(score, 4)
 
 def SMOGIndex(text, analyzedVars):
-    score = (math.sqrt(analyzedVars['complexwordCount']*(30/analyzedVars['sentenceCount'])) + 3)
+    if analyzedVars['sentenceCount']>0:
+        score = (math.sqrt(analyzedVars['complexwordCount']*(30/analyzedVars['sentenceCount'])) + 3)
+    else:
+        score = 0
     return score
 
 def ColemanLiauIndex(text, analyzedVars):
-    score = (5.89*(analyzedVars['charCount']/analyzedVars['wordCount']))-(30*(analyzedVars['sentenceCount']/analyzedVars['wordCount']))-15.8
+    if analyzedVars['wordCount']>0:
+        score = (5.89*(analyzedVars['charCount']/analyzedVars['wordCount']))-(30*(analyzedVars['sentenceCount']/analyzedVars['wordCount']))-15.8
+    else:
+        score = 0
     return round(score, 4)
 
 def RIX(text, analyzedVars):
@@ -73,7 +91,10 @@ def RIX(text, analyzedVars):
     for word in analyzedVars['words']:
         if len(word) >= 7:
             longwords += 1.0
-    score = longwords / analyzedVars['sentenceCount']
+    if  analyzedVars['sentenceCount']>0:
+        score = longwords / analyzedVars['sentenceCount']
+    else:
+        score = 0
     return score
 
 def extractReadabilityArray(text, tokens):
