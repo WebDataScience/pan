@@ -1,10 +1,8 @@
 import os
-from Util import readFile,saveFile,extractFileName,clean,getHomeDirectory,saveDictionary,saveDictionaryValues
+from Util import readFile,saveFile,extractFileName,clean,getHomeDirectory,saveDictionary,saveStringDictionary, saveDictionaryValues
 from TextualModel import makeTextualModelDoctionary
 from CosineCSVMaker import cosineCSVMaker
 from shutil import rmtree
-
-
 
 def run(input_training, input_testing, type, lang, output_results):
     print "Starting.."
@@ -37,8 +35,9 @@ def run(input_training, input_testing, type, lang, output_results):
     
 def extractingCSVModel(folder, output,subject,type,lang):
     print "Pre-processing step started..."
-    users, labels, cleanPath, groupPath = preProcessing(folder, output)
+    users, labels, cleanPath, groupPath, classDict = preProcessing(folder, output)
     print "Pre-processing step finished..."
+    saveStringDictionary(classDict,output +'dictionary/class+ID.csv')
     print "Extracting features..."     
     print "Extracting LDA features..."  
     #LDADic = extractTopicFeatures(folder)
@@ -70,14 +69,15 @@ def preProcessing(folderPath, outputPath):
     groupedPath = outputPath+ '/grouped'
     if not os.path.exists(groupedPath):
         os.makedirs(groupedPath) 
-    users , labels= cleanText(folderPath, cleanPath, groupedPath)  
-    return users, labels, cleanPath, groupedPath
+    users , labels, classDict= cleanText(folderPath, cleanPath, groupedPath)  
+    return users, labels, cleanPath, groupedPath, classDict
     
 def cleanText(folder, textualOutput, groupedPath):
      files = [f for f in os.listdir(folder) if f.endswith('.xml')]
      labels = []
      users = []
      labelDict = {}
+     classhDict={}
      count = 0
      for file in files:
          count = count+1
@@ -89,6 +89,7 @@ def cleanText(folder, textualOutput, groupedPath):
          age = info[2]
          gender = info[3].replace('.xml','')   
          label = age+'_'+gender
+         classhDict[userID] = label
          users.append(userID)
          if label in labelDict.keys():
              text_label = labelDict[label]
@@ -110,7 +111,7 @@ def cleanText(folder, textualOutput, groupedPath):
          groupedXmlFile = groupedPath+'/'+label+'_xml'+'.txt'
          saveFile(groupedFile, labelDict[label])
          saveFile(groupedXmlFile,labelDict[label+'_xml'])
-     return users, labels
+     return users, labels,classhDict
          
 
 input_training='/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/en/'

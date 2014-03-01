@@ -27,8 +27,6 @@ def extractTextualFeatures(textFilePath, xmlFilePath, userID, lang):
     features.append(documentCounter)
     tokens = extractTokens(text)
     length = len(tokens)
-    print 'length'
-    print length
     #print float(timeit.default_timer()-start)
     features.append(length)
     tokens = removeStopWords(text, lang)

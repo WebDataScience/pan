@@ -192,6 +192,11 @@ def saveDictionaryValues(myDic, filePath):
     for key, value in myDic.items():
         writer.writerow(value)
         
+def saveStringDictionary(myDic, filePath):
+    writer = csv.writer(open(filePath, 'wb'))
+    for key, value in myDic.items():
+        writer.writerow([key, value])
+        
                
 #print extractFolderName('/Users/Golnoosh/Documents/4c9fe29d6bea6d70c02b7eca7e2fac7b_en_50-64_male.xml')
 #print cleanHtmlTags('&dsf; dsgfsd sdf sf asd asd asd $sd; &dfdsfdf;')
