@@ -2,6 +2,11 @@ import os, csv
 import numpy as np
 import os,csv
 
+def getHomeDirectory():
+    #return '/home/marquardt14/'
+    return '/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/output/'
+
+
 def initDict(src):
 	ret_dict = dict()
 	onlyfiles = [ f for f in os.listdir(src) if os.path.isfile(os.path.join(src,f)) ]
@@ -146,24 +151,44 @@ def clean(text):
     text = text.replace(']]>','')
     text = text.replace('\n',' ')
     text = text.strip() 
-    text = cleanHtmlTags(text)  
+    #text = cleanHtmlTags(text) 
+    text=cleanSpams(text) 
     return text
         
 def cleanHtmlTags(text):
     start = text.find('&')
-    if start <>-1:
+    while  start <>-1:
         finish = text.find(';', start+1)
         if finish<>-1:
             rm = text[start:finish+1]
             text = text.replace(rm,' ')
+        start = text.find('&')   
     return text
+   
+def cleanSpams(text):
+	start = text.find('%')
+	while start <>-1:
+		finish= text.find('%', start+1)
+		index = start
+		while finish<>-1 and float(finish-index) <5.0:
+			index = finish
+			finish = text.find('%', index+1)
+		rm = text[start:index+1]
+		text = text.replace(rm,' ')
+		start = text.find('%')
+	return text
    
 def saveDictionary(myDic, filePath):
 	writer = csv.writer(open(filePath, 'wb'))
-	for key, value in textualDictionary.items():
-		writer.writerow([key, value])
+	for key, value in myDic.items():
+		writer.writerow([key]+ value)
         
+def saveDictionaryValues(myDic, filePath):
+    writer = csv.writer(open(filePath, 'wb'))
+    for key, value in myDic.items():
+        writer.writerow(value)
         
+               
 print extractFolderName('/Users/Golnoosh/Documents/4c9fe29d6bea6d70c02b7eca7e2fac7b_en_50-64_male.xml')
 
 
