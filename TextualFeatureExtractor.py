@@ -6,56 +6,66 @@ from nltk.corpus import cmudict
 from os import listdir
 from os.path import isfile, join
 #from bs4 import BeautifulSoup
-from Util import extractFileName, readFile
+from Util import extractFileName, readFile, extractFolderName
 from ReadabilityCalculator import extractReadabilityArray
+import subprocess
 import re
+import timeit
 
 # text path as an input 
-def extractTextualFeatures(textFilePath, xmlFilePath):
+def extractTextualFeatures(textFilePath, xmlFilePath, userID, lang):
     #call all the feature extractor and make a vector out of them
     features = []
-    textFileName =extractFileName(xmlFilePath)
-    print textFileName
-    info = textFileName.split('_')
-    userID = str(info[0])
-    print userID
-    lang = str(info[1])
+    start = timeit.default_timer()
     text = readFile(textFilePath)
+    #print 'read file'
+    #print float(timeit.default_timer()-start)
     xmlText= readFile(xmlFilePath)
     documentCounter = extractNumberOfDocument(xmlText)
+    #print 'document counter'
+    #print float(timeit.default_timer()-start)
     features.append(documentCounter)
     tokens = extractTokens(text)
     length = len(tokens)
-    print length
+    #print 'length'
+    #print float(timeit.default_timer()-start)
     features.append(length)
     tokens = removeStopWords(text, lang)
     formality = extractFormality(tokens, lang)
-    print formality
     features.append(formality)
+    #print 'formality'
+    #print float(timeit.default_timer()-start)
     repeatation = extractRepeatation(tokens, text)
-    print repeatation
     features.append(repeatation)
+    #print 'repeatation'
+    #print float(timeit.default_timer()-start)
     capitalWord, capitalLetter = ExtractCapital(tokens)
-    print capitalWord
-    print capitalLetter
     features.append(capitalWord)
     features.append(capitalLetter)
+    #print 'capital'
+    #print float(timeit.default_timer()-start)
     emoticon = extractEmoticons(text, tokens)
-    print emoticon
     features.append(emoticon)
-    errorArray = extractErrors(text)
-    features.extend(errorArray)
-    #posArray = extractPOSFeatures(text, lang)
-    #features.append(posArray)
+    #print 'emotiocon'
+    #print float(timeit.default_timer()-start)
+    #errorArray = extractErrors(text,lang)
+    #features.extend(errorArray)
+    #error = extractPOSFeatures(text, lang)
+    #features.append(error)
     htmlArray = extractHTMLTags(xmlText,tokens)
-    print htmlArray
     features.extend(htmlArray)
-    readabilityFeatures = extractReadability(text)
-    features.extend(htmlArray)
+    #print 'html'
+    #print float(timeit.default_timer()-start)
+    readabilityFeatures = extractReadability(text,tokens)
+    features.extend(readabilityFeatures)
+    #print 'readability'
+    #print float(timeit.default_timer()-start)
+    #print features
+    #print len(features)
     return features
 
 def extractNumberOfDocument(text):
-    number = countMatch('</document>',text)
+    number = len(re.findall(r'</document>', text))
     return number
 
 #Count number of words which are in the WordNet dictionary
@@ -66,7 +76,7 @@ def extractFormality(tokens, lang):
             if wordnet.synsets(token):
                 number = number + 1
         else:
-            #TODO: look for spanish dictionary
+            #TODO: look for Spanish dictionary
             number = 0
     return float(float(number)/float(len(tokens)))
 
@@ -136,13 +146,11 @@ def extractEmoticons(text, tokens):
     return float(float(len(matches))/float(len(tokens)))
             
             
-def extractErrors(text):
+def extractErrors(text, lang):
     #TODO: add gayathri's work to extract errors here
-    errorArray = []
-    grammerError = spellingError =0
-    errorArray.append(grammerError)
-    errorArray.append(spellingError)
-    return errorArray
+    error =0
+    error = subprocess.call(['./test.sh'])
+    return error
     
     
 def extractPOSFeatures(text, tokens, lang):
@@ -163,19 +171,19 @@ def extractPOSFeatures(text, tokens, lang):
 
 def extractHTMLTags(text, tokens):
     docArray = []
-    docArray.append(float(float(getAllTheMatch('<a',text))/float(len(tokens))))
-    docArray.append(float(float(getAllTheMatch('<img',text))/float(len(tokens))))
-    docArray.append(float(float(getAllTheMatch('<b',text))/float(len(tokens))))
-    docArray.append(float(float(getAllTheMatch('<i',text))/float(len(tokens))))
-    docArray.append(float(float(getAllTheMatch('<ui',text) + getAllTheMatch('<ol',text))/float(len(tokens))))
+    docArray.append(float(float(len(re.findall(r'<a',text)))/float(len(tokens))))
+    docArray.append(float(float(len(re.findall(r'<img',text)))/float(len(tokens))))
+    docArray.append(float(float(len(re.findall(r'<b',text)))/float(len(tokens))))
+    docArray.append(float(float(len(re.findall(r'<i',text)))/float(len(tokens))))
+    docArray.append(float(float(len(re.findall(r'<ui',text)) + len(re.findall(r'<ol',text)))/float(len(tokens))))
     return docArray   
 
 # extract different features related to readability of the text based on the different formulas
-def extractReadabilityFeatures(text,tokens):
+def extractReadability(text,tokens):
     readabilityArray = extractReadabilityArray(text,tokens)
-    # this works for english 
+    # this works for English 
+    #TODO: find for Spanish text a dictionary to calculate the syllabes
     return readabilityArray
     
-   
 #print extractTextualFeatures('/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/en/4c9fe29d6bea6d70c02b7eca7e2fac7b_en_50-64_male.xml')
     

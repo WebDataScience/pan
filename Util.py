@@ -1,5 +1,6 @@
 import os, csv
 import numpy as np
+import os,csv
 
 def initDict(src):
 	ret_dict = dict()
@@ -157,6 +158,12 @@ def cleanHtmlTags(text):
             text = text.replace(rm,' ')
     return text
    
+def saveDictionary(myDic, filePath):
+	writer = csv.writer(open(filePath, 'wb'))
+	for key, value in textualDictionary.items():
+		writer.writerow([key, value])
+        
+        
 print extractFolderName('/Users/Golnoosh/Documents/4c9fe29d6bea6d70c02b7eca7e2fac7b_en_50-64_male.xml')
 
 
