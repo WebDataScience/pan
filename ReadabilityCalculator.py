@@ -12,7 +12,10 @@ def textAnalyzer(text, tokens):
     analyzedVars['sentenceCount'] = float(SentenceCount(text))
     #analyzedVars['syllableCount'] = float(SyllableCalculator(text))
     #analyzedVars['complexwordCount'] = float(complexwordsCount)
-    averageWordsPerSentence = float(float(wordCount)/float(sentenceCount))
+    if float(sentenceCount)>0:
+        averageWordsPerSentence = float(float(wordCount)/float(sentenceCount))
+    else:
+        averageWordsPerSentence = 0
     analyzedVars['averageWordsPerSentence'] = float(averageWordsPerSentence)
     return analyzedVars
   
