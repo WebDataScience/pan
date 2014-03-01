@@ -52,9 +52,12 @@ def extractingCSVModel(folder, output,subject,type,lang):
     saveDictionaryValues(cosineDic,output +'dictionary/cosine-ID.csv')
     print "Textual features are ready!"    
     print "Combining the feature sets.."
-    #combineDic = combineFeatures(KldivDic, cosineDic, users)    
-    #csvPath = folderPath+ '/CSV'
-    #saveDict(combineDic, csvPath)
+    #combinedDistanceDic = combineFeatures(topicDic, textualDic, users)    
+    #saveDictionary(combinedDistanceDic,output +'dictionary/combinedDistance+ID.csv')
+    #saveDictionaryValues(combinedDistanceDic,output +'dictionary/combinedDistance-ID.csv')
+    #combinedFeaturesDic = combineFeatures(KldivDic, cosineDic, users)  
+    #saveDictionary(combinedFeaturesDic,output +'dictionary/combinedFeatures+ID.csv')
+    #saveDictionaryValues(combinedFeaturesDic,output +'dictionary/combinedFeatures-ID.csv')
     print "CSV model is ready"   
             
 def preProcessing(folderPath, outputPath):
