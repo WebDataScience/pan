@@ -98,11 +98,36 @@ def cleanText(folder, textualOutput, groupedPath):
              xml_label = labelDict[label+'_xml']
              xml_label = xml_label +xmlText
              labelDict[label+'_xml']=xml_label
+             if age in labelDict.keys():
+                 text_age = labelDict[age]
+                 text_age = text_age +text
+                 labelDict[age]=text_age
+                 xml_age = labelDict[age+'_xml']
+                 xml_age = xml_age +xmlText
+                 labelDict[age+'_xml']=xml_label
+             else:
+                 labelDict[age] = text
+                 labelDict[age+'_xml'] = xmlText
+             if gender in labelDict.keys():
+                 text_gender = labelDict[gender]
+                 text_gender = text_gender +text
+                 labelDict[gender]=text_gender
+                 xml_gender = labelDict[gender+'_xml']
+                 xml_gender = xml_gender +xmlText
+                 labelDict[gender+'_xml']=xml_gender
+             else:
+                 labelDict[gender] = text
+                 labelDict[gender+'_xml'] = xmlText 
+             
          else:
              labelDict[label] = text
              labelDict[label+'_xml'] = xmlText
          if label not in labels:
              labels.append(label)
+         if age not in labels:
+             labels.append(age)
+         if gender not in labels:
+             labels.append(gender)
          fileName = file.replace('.xml','.txt')
          textualFile = textualOutput+'/'+ fileName
          saveFile(textualFile,text)
@@ -115,7 +140,7 @@ def cleanText(folder, textualOutput, groupedPath):
          
 
 input_training='/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/en/'
-input_testing= '/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/en/'
+input_testing= '/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/es/'
 type ='blog'
 lang = 'en'
 output_results=''

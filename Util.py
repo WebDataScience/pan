@@ -157,7 +157,7 @@ def clean(text):
     return text
         
 def cleanHtmlTags(text):
-    print 'html'
+    #print 'html'
     start = text.find('&')
     finish = start+20
     while  start <>-1 and (finish-start)<10:
@@ -169,7 +169,7 @@ def cleanHtmlTags(text):
     return text
    
 def cleanSpams(text):
-    print 'spam'
+    #print 'spam'
     start = text.find('%')
     while start <>-1:
 		finish= text.find('%', start+1)
