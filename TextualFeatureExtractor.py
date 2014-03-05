@@ -8,12 +8,13 @@ from os.path import isfile, join
 from collections import Counter
 from Util import extractFileName, readFile, extractFolderName
 from ReadabilityCalculator import extractReadabilityArray
+from LIWC import extractLIWCFeatures
 import subprocess
 import re
 import timeit
 
 # text path as an input 
-def extractTextualFeatures(textFilePath, xmlFilePath, userID, lang):
+def extractTextualFeatures(textFilePath, xmlFilePath, userID, lang, LIWCDic):
     #call all the feature extractor and make a vector out of them
     features = []
     start = timeit.default_timer()
@@ -61,6 +62,8 @@ def extractTextualFeatures(textFilePath, xmlFilePath, userID, lang):
     #print float(timeit.default_timer()-start)
     #print features
     #print len(features)
+    liwcFeatures = extractLIWCFeatures(tokens, LIWCDic)
+    features.extend(liwcFeatures)
     return features
 
 def extractNumberOfDocument(text):

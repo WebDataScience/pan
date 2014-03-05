@@ -139,10 +139,10 @@ def cleanText(folder, textualOutput, groupedPath):
      return users, labels,classhDict
          
 
-input_training='/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/en/'
+input_training='/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/es/'
 input_testing= '/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/pan14-author-profiling-training-corpus-blogs-2014-02-10/es/'
 type ='blog'
-lang = 'en'
+lang = 'es'
 output_results=''
 run(input_training, input_testing, type, lang, output_results)
     
