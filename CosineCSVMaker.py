@@ -11,8 +11,8 @@ def cosineCSVMaker(users, labels, textFeatureDictionary):
     for user in users:
         scores = []
         for label in labels:
-            #scores.append(cosineMeasure(textFeatureDictionary[user], textFeatureDictionary[label]))
-            scores.append(kl(textFeatureDictionary[user], textFeatureDictionary[label]))
+            scores.append(cosineMeasure(textFeatureDictionary[user], textFeatureDictionary[label]))
+            #scores.append(kl(textFeatureDictionary[user], textFeatureDictionary[label]))
         cosineScoreDic[user]= scores
     return cosineScoreDic
          

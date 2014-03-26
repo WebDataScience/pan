@@ -2,10 +2,11 @@ import os, argparse
 from Util import readFile,saveFile,extractFileName,clean,getHomeDirectory,saveDictionary,saveStringDictionary, saveDictionaryValues
 from TextualModel import makeTextualModelDoctionary
 from CosineCSVMaker import cosineCSVMaker
+from TopicModeling import extractTopicFeatures
 from shutil import rmtree
 
 
-def run(input_training, input_testing, type, lang, output_results):
+def run(input_training, type, lang, output_results):
     print "Starting.."
     homedir = "./Data/"
     if os.path.exists(homedir+type+'_'+lang+'/'):
@@ -15,12 +16,6 @@ def run(input_training, input_testing, type, lang, output_results):
     if os.path.exists(output +'training/'):
         rmtree(output +'training/')
     os.makedirs(output +'training/')
-    if os.path.exists(output +'testing/'):
-        rmtree(output +'testing/')
-    os.makedirs(output +'testing/')
-    if os.path.exists(output +'testing/'+'dictionary/'):
-        rmtree(output +'testing/'+'dictionary/')
-    os.makedirs(output +'testing/'+'dictionary/')
     if os.path.exists(output +'training/'+'dictionary/'):
         rmtree(output +'training/'+'dictionary/')
     os.makedirs(output +'training/'+'dictionary/')
@@ -29,13 +24,6 @@ def run(input_training, input_testing, type, lang, output_results):
     folder = input_training
     outputfolder = homedir +type+'_'+lang+'/training/'
     extractingCSVModel(folder, outputfolder, 'training',type,lang)
-    
-    '''
-    print "Pre-process the TESTING data"
-    folders = input_testing
-    outputfolder = getHomeDirectory() +type+'_'+lang+'/testing/'
-    extractingCSVModel(folder,outputfolder,'testing',type,lang)
-    '''
     
 def extractingCSVModel(folder, output,subject,type,lang):
     print "Pre-processing step started..."
@@ -146,7 +134,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Trains a model')
     parser.add_argument('-i','--input',help='Path to training corpus',required=True)
     parser.add_argument('-o','--output',help='Path to output directory',required=True)
+    parser.add_argument('-l','--language',help='Language of training corpus',required=True)
+    parser.add_argument('-g','--mediatype',help='Media type of training corpus',required=True)
     args = parser.parse_args()
+
+    run(args.input, args.mediatype, args.language, args.output)
 '''         
 input_training='/Users/the_james_marq/PAN-tests/PAN14/blogs/en/'
 input_testing= '/Users/the_james_marq/PAN-tests/PAN14/blogs/en/'

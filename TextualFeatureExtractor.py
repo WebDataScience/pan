@@ -8,7 +8,7 @@ from os.path import isfile, join
 from collections import Counter
 from Util import extractFileName, readFile, extractFolderName
 from ReadabilityCalculator import extractReadabilityArray
-from LIWC import extractLIWCFeatures
+from LIWC import extractLIWCFeatures, readDictionary
 import subprocess
 import re
 import timeit
