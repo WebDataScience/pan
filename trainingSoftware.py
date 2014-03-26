@@ -32,7 +32,7 @@ def extractingCSVModel(folder, output,subject,type,lang):
     saveStringDictionary(classDict,output +'dictionary/class+ID.csv')
     print "Extracting features..."     
     print "Extracting LDA features..."  
-    #LDADic = extractTopicFeatures(folder)
+    #LDADic = extractTopicFeatures(folder, 100, lang, type)
     #KldivDic = klDiv(LDADic)
     print "LDA features are ready!"
     print "Extracting Textual features..."
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     parser.add_argument('-g','--mediatype',help='Media type of training corpus',required=True)
     args = parser.parse_args()
 
-    run(args.input, args.mediatype, args.language, args.output)
+    run(args.input, args.mediatype, args.language, '')
 '''         
 input_training='/Users/the_james_marq/PAN-tests/PAN14/blogs/en/'
 input_testing= '/Users/the_james_marq/PAN-tests/PAN14/blogs/en/'

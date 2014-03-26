@@ -51,27 +51,35 @@ def fixMalletOutputInf(topicOutputPath, newPath, topic_num):
 
 #Tranforms Mallet topic distribution output to normal row/column form
 def fixMalletOutput(topicOutputPath, newPath, topic_num):
-	in_txt = csv.reader(open(topicOutputPath, "rb"), delimiter = '\t')
-	output = csv.writer(open(newPath, 'wb'))
+	
+	ret_dict = dict()
 
-	next(in_txt, None)
-	for row in in_txt:
-		arr = [0] * (topic_num + 1)
-		column_src = 0
-		column_dst = 0
+	with open(topicOutputPath, "rb") as in_path, open(newPath, 'wb') as out_path:
 
-		file_info = row[1].split("/")[-1]
-		arr[0] = file_info.split("_")[0]
+		in_txt = csv.reader(in_path, delimiter = '\t')
+		output = csv.writer(out_path, 'wb'))
 
-		for word in row[2:]:
-			if column_src%2 == 0:
-				column_dst = word
-			else:
-				arr[int(column_dst)+1] = word
+		next(in_txt, None)
+		for row in in_txt:
+			arr = [0] * (topic_num + 1)
+			column_src = 0
+			column_dst = 0
+
+			file_info = row[1].split("/")[-1]
+			arr[0] = file_info.split("_")[0]
+
+			for word in row[2:]:
+				if column_src%2 == 0:
+					column_dst = word
+				else:
+					arr[int(column_dst)+1] = word
+				
+				column_src+=1	
 			
-			column_src+=1	
-		
-		output.writerow(arr)
+			output.writerow(arr)
+			ret_dict[arr[0]] = arr[1:]
+
+	return ret_dict
 
 #Save textual content to a file
 #Input: file path and textual content
