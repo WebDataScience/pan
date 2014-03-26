@@ -2,7 +2,7 @@ import os, argparse
 from Util import readFile,saveFile,extractFileName,clean,getHomeDirectory,saveDictionary,saveStringDictionary, saveDictionaryValues
 from TextualModel import makeTextualModelDoctionary
 from CosineCSVMaker import cosineCSVMaker
-from TopicModeling import extractTopicFeatures
+from TopicModeling import extractTopicFeatures, klDiv
 from shutil import rmtree
 
 
@@ -32,8 +32,8 @@ def extractingCSVModel(folder, output,subject,type,lang):
     saveStringDictionary(classDict,output +'dictionary/class+ID.csv')
     print "Extracting features..."     
     print "Extracting LDA features..."  
-    #LDADic = extractTopicFeatures(folder, 100, lang, type)
-    #KldivDic = klDiv(LDADic)
+    LDADic = extractTopicFeatures(cleanPath, 100, lang, type)
+    #KldivDic = klDiv(LDADic, groupPath,labels)
     print "LDA features are ready!"
     print "Extracting Textual features..."
     textualDic = makeTextualModelDoctionary(folder, labels, subject, type, lang)

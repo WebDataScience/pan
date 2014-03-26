@@ -4,8 +4,7 @@ import os,csv
 
 def getHomeDirectory():
     #return '/home/marquardt14/'
-    return '/Users/Golnoosh/Documents/Blog-data/Data-2014/pan14-author-profiling-training-corpus-2014-02-10/output/'
-
+    return './output/'
 
 def initDict(src):
 	ret_dict = dict()
@@ -17,37 +16,42 @@ def initDict(src):
 
 #Convert output of file inference to usable form
 def fixMalletOutputInf(topicOutputPath, newPath, topic_num):
-	print topicOutputPath
-	print newPath
+
 	#Convert .txt to appropriate .csv
-	in_txt = csv.reader(open(topicOutputPath, "rb"), delimiter = '\t')
-	output = csv.writer(open(newPath, 'wb'))
 
-	next(in_txt, None)
-	arr = [0] * (topic_num)
-	for row in in_txt:	
-		column_src = 0
-		column_dst = 0
-		index = 0
-		topic_count = 0
-		for word in row:
-			entries = word.split(" ")
-			for entry in entries:
-				index += 1
-				if index <= 2:
-					continue
+	ret_list = []
 
-				if column_src%2 == 0:
-					column_dst = entry
-				else:
-					arr[int(column_dst)]=entry
-					topic_count+=1
-				column_src+=1
-				if topic_count >= topic_num:
-					break
-			output.writerow(arr)
-	#if topicOutputPath != newPath:
-	#	os.remove(topicOutputPath)
+	with open(topicOutputPath, "rb"), delimiter = '\t') as in_path, open(newPath, 'wb') as out_path
+		in_txt = csv.reader(in_path, delimiter = '\t')
+		output = csv.writer(out_path)
+
+		next(in_txt, None)
+		arr = [0] * (topic_num)
+		for row in in_txt:	
+			column_src = 0
+			column_dst = 0
+			index = 0
+			topic_count = 0
+			for word in row:
+				entries = word.split(" ")
+				for entry in entries:
+					index += 1
+					if index <= 2:
+						continue
+
+					if column_src%2 == 0:
+						column_dst = entry
+					else:
+						arr[int(column_dst)]=entry
+						topic_count+=1
+					column_src+=1
+					if topic_count >= topic_num:
+						break
+				output.writerow(arr)
+				ret_list.append(arr)
+		#if topicOutputPath != newPath:
+		#	os.remove(topicOutputPath)
+	return ret_list
 
 #Tranforms Mallet topic distribution output to normal row/column form
 def fixMalletOutput(topicOutputPath, newPath, topic_num):
