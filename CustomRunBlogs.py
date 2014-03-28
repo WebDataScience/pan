@@ -50,7 +50,7 @@ fixMalletOutputInf("../blogs-en/Topics/blogs-en-male-groupedtopics.txt","../blog
 '''
 
 outputDivergences("../blogs-en/FixedTopics/blogs-en-allgroupedtopics.csv","../blogs-en/FixedTopics/blogs-en-alltopics.csv", "../blogs-en/blogs-en-divergences.csv")
-outputDivergences("../blogs-es/FixedTopics/blogs-es-allgroupedtopics.csv","../blogs-es/FixedTopics/blogs-es-alltopics.csv", "../blogs-es/blogs-es-divergences.csv")
+#outputDivergences("../blogs-es/FixedTopics/blogs-es-allgroupedtopics.csv","../blogs-es/FixedTopics/blogs-es-alltopics.csv", "../blogs-es/blogs-es-divergences.csv")
 
 with open("../blogs-en/blogs-en-labels.csv", "wb") as label_doc:
 	writer = csv.writer(label_doc)
@@ -58,14 +58,14 @@ with open("../blogs-en/blogs-en-labels.csv", "wb") as label_doc:
 	for dirpath, dirnames, filenames in names:
 		for filename in filenames:
 			writer.writerow([filename.split("_")[2]+" "+filename.split("_")[3].split(".")[0]])#+filename.split("_")[3].split["."][0]])
-
+'''
 with open("../blogs-es/blogs-es-labels.csv", "wb") as label_doc:
 	writer = csv.writer(label_doc)
 	names = os.walk("../blogs-es/Cleaned")
 	for dirpath, dirnames, filenames in names:
 		for filename in filenames:
 			writer.writerow([filename.split("_")[2]+" "+filename.split("_")[3].split(".")[0]])#+filename.split("_")[3].split["."][0]])
-
+'''
 with open("../blogs-en/blogs-en-labels.csv") as label_doc, open("../blogs-en/blogs-en-divergences.csv") as div_doc,open("../blogs-en/blogs-en-divandlabels.csv","wb") as divandlabels:
 	label_reader = csv.reader(label_doc)
 	div_reader = csv.reader(div_doc)
@@ -83,7 +83,7 @@ with open("../blogs-en/blogs-en-labels.csv") as label_doc, open("../blogs-en/blo
 	for line in div_reader:
 		divandlabels_writer.writerow([labels[counter]] + line)
 		counter+=1
-
+'''
 with open("../blogs-es/blogs-es-labels.csv") as label_doc, open("../blogs-es/blogs-es-divergences.csv") as div_doc,open("../blogs-es/blogs-es-divandlabels.csv","wb") as divandlabels:
 	label_reader = csv.reader(label_doc)
 	div_reader = csv.reader(div_doc)
@@ -101,3 +101,4 @@ with open("../blogs-es/blogs-es-labels.csv") as label_doc, open("../blogs-es/blo
 	for line in div_reader:
 		divandlabels_writer.writerow([labels[counter]] + line)
 		counter+=1
+'''

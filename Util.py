@@ -21,13 +21,14 @@ def fixMalletOutputInf(topicOutputPath, newPath, topic_num):
 
 	ret_list = []
 
-	with open(topicOutputPath, "rb"), delimiter = '\t') as in_path, open(newPath, 'wb') as out_path
+	with open(topicOutputPath, "rb") as in_path, open(newPath, 'wb') as out_path:
 		in_txt = csv.reader(in_path, delimiter = '\t')
 		output = csv.writer(out_path)
+		print "Fixing inferred distribution"
 
 		next(in_txt, None)
 		arr = [0] * (topic_num)
-		for row in in_txt:	
+		for row in in_txt:
 			column_src = 0
 			column_dst = 0
 			index = 0
@@ -61,7 +62,7 @@ def fixMalletOutput(topicOutputPath, newPath, topic_num):
 	with open(topicOutputPath, "rb") as in_path, open(newPath, 'wb') as out_path:
 
 		in_txt = csv.reader(in_path, delimiter = '\t')
-		output = csv.writer(out_path, 'wb'))
+		output = csv.writer(out_path)
 
 		next(in_txt, None)
 		for row in in_txt:

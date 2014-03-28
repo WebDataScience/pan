@@ -23,7 +23,7 @@ def makeTextualModelDoctionary(path, labels, subject, type, lang):
         info = textFileName.split('_')
         userID = info[0]
         fileName = textFileName.replace('xml','txt')
-        cleanFilePath = "/Users/the_james_marq/PAN-tests/text_stuff/"+type+'_'+lang+'/'+subject+'/clean/'+fileName
+        cleanFilePath = "/Users/the_james_marq/PAN-tests/text_stuff/"+type+'_'+lang+'/'+subject+'/Clean/'+fileName
         features = extractTextualFeatures(cleanFilePath, filePath,userID, lang, LIWCDic)
         # add all the textual features of a file to the dictionary of textual features
         textualDictionary[userID] = features

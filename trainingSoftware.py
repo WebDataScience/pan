@@ -4,9 +4,11 @@ from TextualModel import makeTextualModelDoctionary
 from CosineCSVMaker import cosineCSVMaker
 from TopicModeling import extractTopicFeatures, klDiv
 from shutil import rmtree
+from libsvm.svm import *
+from libsvm.svmutil import *
 
 
-def run(input_training, type, lang, output_results):
+def run(input_training, type, lang, output_results,output_model):
     print "Starting.."
     homedir = "./Data/"
     if os.path.exists(homedir+type+'_'+lang+'/'):
@@ -23,35 +25,61 @@ def run(input_training, type, lang, output_results):
     print "Pre-process the TRAINING data"
     folder = input_training
     outputfolder = homedir +type+'_'+lang+'/training/'
-    extractingCSVModel(folder, outputfolder, 'training',type,lang)
+    extractingCSVModel(folder, outputfolder, 'training',type,lang,output_model)
     
-def extractingCSVModel(folder, output,subject,type,lang):
+def extractingCSVModel(folder, output,subject,type,lang,output_model):
+    topic_num = 100
     print "Pre-processing step started..."
     users, labels, cleanPath, groupPath, classDict = preProcessing(folder, output)
     print "Pre-processing step finished..."
     saveStringDictionary(classDict,output +'dictionary/class+ID.csv')
     print "Extracting features..."     
     print "Extracting LDA features..."  
-    LDADic = extractTopicFeatures(cleanPath, 100, lang, type)
-    #KldivDic = klDiv(LDADic, groupPath,labels)
+    LDADic = extractTopicFeatures(cleanPath, topic_num, lang, type)
+    KldivDic = klDiv(LDADic, groupPath,labels,topic_num,lang+"_"+type)
     print "LDA features are ready!"
     print "Extracting Textual features..."
     textualDic = makeTextualModelDoctionary(folder, labels, subject, type, lang)
     saveDictionary(textualDic,output +'dictionary/textual+ID.csv')
     saveDictionaryValues(textualDic,output +'dictionary/textual-ID.csv')
-    cosineDic = cosineCSVMaker(users, labels, textualDic)
-    saveDictionary(cosineDic,output +'dictionary/cosine+ID.csv')
-    saveDictionaryValues(cosineDic,output +'dictionary/cosine-ID.csv')
+    #cosineDic = cosineCSVMaker(users, labels, textualDic)
+    #saveDictionary(cosineDic,output +'dictionary/cosine+ID.csv')
+    #saveDictionaryValues(cosineDic,output +'dictionary/cosine-ID.csv')
     print "Textual features are ready!"    
     print "Combining the feature sets.."
-    #combinedDistanceDic = combineFeatures(topicDic, textualDic, users)    
-    #saveDictionary(combinedDistanceDic,output +'dictionary/combinedDistance+ID.csv')
-    #saveDictionaryValues(combinedDistanceDic,output +'dictionary/combinedDistance-ID.csv')
+    combinedDistanceDic = combineFeatures(KldivDic, textualDic, classDict)    
+    saveDictionary(combinedDistanceDic,output +'dictionary/combinedDistance+ID.csv')
+    saveDictionaryValues(combinedDistanceDic,output +'dictionary/combinedDistance-ID.csv')
     #combinedFeaturesDic = combineFeatures(KldivDic, cosineDic, users)  
     #saveDictionary(combinedFeaturesDic,output +'dictionary/combinedFeatures+ID.csv')
     #saveDictionaryValues(combinedFeaturesDic,output +'dictionary/combinedFeatures-ID.csv')
-    print "CSV model is ready"   
-            
+    model = makeModel(combinedDistanceDic,lang+"_"+type,output_model)
+    print "CSV model is ready"
+
+def makeModel(model_dic,group,output):
+    labels = []
+    values = []
+
+    for keys, values in model_dic.iteritems():
+        labels.append(values[0])
+        values.append(values[1:])
+
+    prob = svm_problem(labels, values)
+    param = svm_parameter(kernel_type = LINEAR, C = 10)
+    m = svm_train(prob, param)
+    svm_save_model(output+"/"+group+"-model.model",m)
+   
+def combineFeatures(KLDivDic, textualDic, classDic):
+    ret_dic = {}
+
+    for keys, values in KLDivDic.iteritems():
+        val = classDic[keys]
+        val.append(values)
+        val.append(textualDic[keys])
+        ret_dic[keys] = val
+
+    return ret_dic
+
 def preProcessing(folderPath, outputPath):
     print "Make the clean data set"
     cleanPath = outputPath+ '/Clean'
@@ -138,7 +166,7 @@ if __name__ == "__main__":
     parser.add_argument('-g','--mediatype',help='Media type of training corpus',required=True)
     args = parser.parse_args()
 
-    run(args.input, args.mediatype, args.language, '')
+    run(args.input, args.mediatype, args.language, '',args.output)
 '''         
 input_training='/Users/the_james_marq/PAN-tests/PAN14/blogs/en/'
 input_testing= '/Users/the_james_marq/PAN-tests/PAN14/blogs/en/'
