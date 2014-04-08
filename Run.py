@@ -7,7 +7,7 @@ from shutil import rmtree
 
 def run(input_training, input_testing, type, lang, output_results):
     print "Starting.."
-    homedir = "./Data/"
+    homedir = "../text_stuff/"
     if os.path.exists(homedir+type+'_'+lang+'/'):
         rmtree(homedir +type+'_'+lang+'/')
     os.makedirs(homedir +type+'_'+lang+'/')
@@ -141,12 +141,13 @@ def cleanText(folder, textualOutput, groupedPath):
          saveFile(groupedFile, labelDict[label])
          saveFile(groupedXmlFile,labelDict[label+'_xml'])
      return users, labels,classhDict
-
+'''
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Trains a model')
     parser.add_argument('-i','--input',help='Path to training corpus',required=True)
     parser.add_argument('-o','--output',help='Path to output directory',required=True)
     args = parser.parse_args()
+'''
 '''         
 input_training='/Users/the_james_marq/PAN-tests/PAN14/blogs/en/'
 input_testing= '/Users/the_james_marq/PAN-tests/PAN14/blogs/en/'
@@ -182,7 +183,7 @@ type ='socialmedia'
 lang = 'en'
 output_results=''
 run(input_training, input_testing, type, lang, output_results)
-
+'''
 input_training='/Users/the_james_marq/PAN-tests/PAN14/twitter/es/'
 input_testing= '/Users/the_james_marq/PAN-tests/PAN14/twitter/es/'
 type ='twitter'
@@ -190,10 +191,10 @@ lang = 'es'
 output_results=''
 run(input_training, input_testing, type, lang, output_results)
 
-input_training='/Users/the_james_marq/PAN-tests/PAN14/socialmedia/en/'
-input_testing= '/Users/the_james_marq/PAN-tests/PAN14/socialmedia/en/'
+input_training='/Users/the_james_marq/PAN-tests/PAN14/twitter/en/'
+input_testing= '/Users/the_james_marq/PAN-tests/PAN14/twitter/en/'
 type ='twitter'
 lang = 'en'
 output_results=''
 run(input_training, input_testing, type, lang, output_results) 
-'''   
+ 

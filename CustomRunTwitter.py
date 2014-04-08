@@ -4,10 +4,8 @@ from KLDiv import outputDivergences
 import os
 import csv
 
-'''
 cleanText("../PAN14/blogs/en/","../blogs-en/Cleaned","../blogs-en/Grouped")
 cleanText("../PAN14/blogs/es/","../blogs-es/Cleaned","../blogs-es/Grouped")
-'''
 
 '''
 fixMalletOutputInf("../blogs-es/Topics/blogs-es-18-24-groupedtopics.txt","../blogs-es/FixedTopics/blogs-es-18-24-groupedtopics.csv",100)
